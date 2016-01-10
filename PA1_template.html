@@ -69,16 +69,8 @@ img {
 <pre class="r"><code>setwd(&quot;E:/MOOC/COURSERA/DS_JH/Reproducible_Research/DATASETS/&quot;)
 activityData &lt;- read.csv (&quot;activity.csv&quot;, header = T, sep = &quot;,&quot;, stringsAsFactors = F)
 activityData$date &lt;- as.Date(activityData$date, &quot;%Y-%m-%d&quot;)
-library (dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: 'dplyr'</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>AvgDay &lt;- activityData %&gt;% group_by(date) %&gt;%
+library (dplyr)
+AvgDay &lt;- activityData %&gt;% group_by(date) %&gt;%
           summarize(total.steps = sum(steps, na.rm = T), 
                   mean.steps = mean(steps, na.rm = T))
 library(ggplot2)
@@ -108,9 +100,6 @@ g + geom_line() + theme(axis.text = element_text(size = 12),
 <pre><code>## [1] 2304</code></pre>
 <pre class="r"><code>sum(is.na(AvgInterval$mean.steps))</code></pre>
 <pre><code>## [1] 0</code></pre>
-</div>
-<div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
-<h2>Are there differences in activity patterns between weekdays and weekends?</h2>
 <pre class="r"><code>newData &lt;- activityData
 for (i in 1:nrow(newData)) {
       if (is.na(newData$steps[i])) {
@@ -118,8 +107,11 @@ for (i in 1:nrow(newData)) {
             value &lt;- subset(AvgInterval, interval==index)
             newData$steps[i] &lt;- value$mean.steps
       }
-}
-newData$day &lt;- ifelse(weekdays(newData$date) %in% c(&quot;Saturday&quot;, &quot;Sunday&quot;), &quot;weekend&quot;, &quot;weekday&quot;)
+}</code></pre>
+</div>
+<div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
+<h2>Are there differences in activity patterns between weekdays and weekends?</h2>
+<pre class="r"><code>newData$day &lt;- ifelse(weekdays(newData$date) %in% c(&quot;Saturday&quot;, &quot;Sunday&quot;), &quot;weekend&quot;, &quot;weekday&quot;)
 wkend &lt;- filter(newData, day == &quot;weekend&quot;)
 wkday &lt;- filter(newData, day == &quot;weekday&quot;)
 wkend &lt;- wkend %&gt;%

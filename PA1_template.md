@@ -8,26 +8,6 @@ setwd("E:/MOOC/COURSERA/DS_JH/Reproducible_Research/DATASETS/")
 activityData <- read.csv ("activity.csv", header = T, sep = ",", stringsAsFactors = F)
 activityData$date <- as.Date(activityData$date, "%Y-%m-%d")
 library (dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 AvgDay <- activityData %>% group_by(date) %>%
           summarize(total.steps = sum(steps, na.rm = T), 
                   mean.steps = mean(steps, na.rm = T))
@@ -95,7 +75,6 @@ sum(is.na(AvgInterval$mean.steps))
 ```
 ## [1] 0
 ```
-## Are there differences in activity patterns between weekdays and weekends?
 
 ```r
 newData <- activityData
@@ -106,6 +85,10 @@ for (i in 1:nrow(newData)) {
             newData$steps[i] <- value$mean.steps
       }
 }
+```
+## Are there differences in activity patterns between weekdays and weekends?
+
+```r
 newData$day <- ifelse(weekdays(newData$date) %in% c("Saturday", "Sunday"), "weekend", "weekday")
 wkend <- filter(newData, day == "weekend")
 wkday <- filter(newData, day == "weekday")

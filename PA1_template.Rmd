@@ -42,9 +42,6 @@ g + geom_line() + theme(axis.text = element_text(size = 12),
 mean(is.na(activityData$steps))
 sum(is.na(activityData$steps))
 sum(is.na(AvgInterval$mean.steps))
-```
-## Are there differences in activity patterns between weekdays and weekends?
-```{r, echo=TRUE}
 newData <- activityData
 for (i in 1:nrow(newData)) {
       if (is.na(newData$steps[i])) {
@@ -53,6 +50,9 @@ for (i in 1:nrow(newData)) {
             newData$steps[i] <- value$mean.steps
       }
 }
+```
+## Are there differences in activity patterns between weekdays and weekends?
+```{r, echo=TRUE}
 newData$day <- ifelse(weekdays(newData$date) %in% c("Saturday", "Sunday"), "weekend", "weekday")
 wkend <- filter(newData, day == "weekend")
 wkday <- filter(newData, day == "weekday")
